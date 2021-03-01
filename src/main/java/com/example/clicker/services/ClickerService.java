@@ -11,9 +11,22 @@ public class ClickerService {
 
     public ClickerService(ClickerRepository clickerRepository) {
         this.clickerRepository = clickerRepository;
+
+        //Проверяем на наличие кликера в базе
+        if (!checkAvailabilityClicker())//Если его нет, то создаем
+            createNewClicker();
     }
 
-    public Clicker get(){
-        return clickerRepository.findById((long) 1).orElseThrow(()-> new ExpressionException("Clicker not found!"));
+    public Clicker get() {
+        return clickerRepository.findById((long) 1).orElseThrow(() -> new ExpressionException("Clicker not found!"));
+    }
+
+    private boolean checkAvailabilityClicker() {
+        return clickerRepository.count() == 1;
+    }
+
+    private void createNewClicker() {
+        Clicker clicker = new Clicker(0);
+        clickerRepository.save(clicker);
     }
 }

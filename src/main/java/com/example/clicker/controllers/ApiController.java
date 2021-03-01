@@ -14,12 +14,15 @@ public class ApiController {
 
     ClickerService clickerService;
 
+    public ApiController() {
+    }
+
     public ApiController(ClickerService clickerService) {
         this.clickerService = clickerService;
     }
 
     @GetMapping("/api/counter")
-    public Clicker getCount(Model model) {
+    public Clicker getCount() {
         return clickerService.get();
     }
 }

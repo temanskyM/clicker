@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClickerRepository extends CrudRepository<Clicker, Long> {
+    boolean countById(Long i);
 }
