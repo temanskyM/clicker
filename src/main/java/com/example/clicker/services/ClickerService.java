@@ -5,6 +5,8 @@ import com.example.clicker.repositories.ClickerRepository;
 import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class ClickerService {
     ClickerRepository clickerRepository;
@@ -20,11 +22,13 @@ public class ClickerService {
     public Clicker get() {
         return clickerRepository.findById((long) 1).orElseThrow(() -> new ExpressionException("Clicker not found!"));
     }
-    public Clicker set(Integer count){
+
+    @Transactional
+    public Clicker incrementCount() {
         return clickerRepository.findById((long) 1).map(clicker -> {
-            clicker.setCount(count);
+            clicker.setCount(clicker.getCount() + 1);
             return clickerRepository.save(clicker);
-        }).orElseThrow(()-> new ExpressionException("Clicker not found!"));
+        }).orElseThrow(() -> new ExpressionException("Clicker not found!"));
     }
 
     private boolean checkAvailabilityClicker() {
@@ -35,5 +39,6 @@ public class ClickerService {
         Clicker clicker = new Clicker(0);
         clickerRepository.save(clicker);
     }
+
 
 }
