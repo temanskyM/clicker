@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PreDestroy;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
@@ -30,5 +31,11 @@ public class ApiController {
     @GetMapping("/api/counter")
     public Integer getCounter() {
         return counter.get();
+    }
+
+
+    @PreDestroy
+    public void preDestroy() {//Перед тем как уничтожить бин, записываем значение в базу))
+        clickerService.set(counter.get());
     }
 }

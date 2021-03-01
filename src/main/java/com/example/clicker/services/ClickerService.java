@@ -20,6 +20,12 @@ public class ClickerService {
     public Clicker get() {
         return clickerRepository.findById((long) 1).orElseThrow(() -> new ExpressionException("Clicker not found!"));
     }
+    public Clicker set(Integer count){
+        return clickerRepository.findById((long) 1).map(clicker -> {
+            clicker.setCount(count);
+            return clickerRepository.save(clicker);
+        }).orElseThrow(()-> new ExpressionException("Clicker not found!"));
+    }
 
     private boolean checkAvailabilityClicker() {
         return clickerRepository.count() == 1;
@@ -29,4 +35,5 @@ public class ClickerService {
         Clicker clicker = new Clicker(0);
         clickerRepository.save(clicker);
     }
+
 }
